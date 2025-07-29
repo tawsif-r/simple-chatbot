@@ -28,11 +28,13 @@ class Simple_Chatbot_Admin_Pages {
 
     // Include the actual HTML/PHP for each page here (or in separate template files)
     public function main_page() {
+        // get the value corresponding to simple_chatbot_hf_token
         $hf_token = get_option('simple_chatbot_hf_token', '');
         ?>
         <div class="wrap">
             <h1>Simple Chatbot Dashboard</h1>
             
+            <!-- check if there is any hf token -->
             <?php if (empty($hf_token)): ?>
                 <div class="notice notice-warning">
                     <p>Please configure your Hugging Face token in <a href="<?php echo admin_url('admin.php?page=simple-chatbot-settings'); ?>">Settings</a> to use the chatbot.</p>
