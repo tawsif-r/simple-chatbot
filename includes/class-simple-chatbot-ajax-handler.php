@@ -1,14 +1,16 @@
 <?php
 class Simple_Chatbot_Ajax_Handler {
-
+    // database_handler is being instantiated elsewhere.
+    // Then passed into the ajax handler.
     private $database_handler;
 
     public function __construct($database_handler) {
         $this->database_handler = $database_handler;
+        
         add_action('wp_ajax_send_chat_message', array($this, 'handle_chat_message'));
     }
 
-     public function handle_chat_message() {
+    public function handle_chat_message() {
         // ... (logic for checking permissions, nonce, sanitizing input) ...
         $message = sanitize_text_field($_POST['message']);
 

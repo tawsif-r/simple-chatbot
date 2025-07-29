@@ -4,6 +4,7 @@ class Simple_Chatbot_Loader {
     private $database_handler;
     private $admin_pages_handler;
     private $ajax_handler;
+    private $frontend_pages_handler;
 
     public function __construct() {
         // Hook into WordPress initialization
@@ -16,6 +17,7 @@ class Simple_Chatbot_Loader {
         $this->database_handler = new Simple_Chatbot_Database();
         $this->admin_pages_handler = new Simple_Chatbot_Admin_Pages($this->database_handler);
         $this->ajax_handler = new Simple_Chatbot_Ajax_Handler($this->database_handler);
+        $this->frontend_pages_handler = new Simple_Chatbot_Frontend($this->database_handler);
     }
 
     public function init() {

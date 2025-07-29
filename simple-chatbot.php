@@ -30,6 +30,7 @@ require_once SIMPLE_CHATBOT_PLUGIN_DIR . 'includes/class-simple-chatbot-database
 require_once SIMPLE_CHATBOT_PLUGIN_DIR . 'includes/class-simple-chatbot-admin-pages.php';
 require_once SIMPLE_CHATBOT_PLUGIN_DIR . 'includes/class-simple-chatbot-ajax-handler.php';
 require_once SIMPLE_CHATBOT_PLUGIN_DIR . 'includes/class-simple-chatbot-api-client.php';
+require_once SIMPLE_CHATBOT_PLUGIN_DIR . 'includes/class-simple-chatbot-frontend.php';
 
 // Initialize the main plugin class
 new Simple_Chatbot_Loader();
