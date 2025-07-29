@@ -8,6 +8,8 @@ class Simple_Chatbot_Ajax_Handler {
         $this->database_handler = $database_handler;
         
         add_action('wp_ajax_send_chat_message', array($this, 'handle_chat_message'));
+        // Handle AJAX for frontend users (new)
+        add_action('wp_ajax_nopriv_send_chat_message', array($this, 'handle_chat_message'));
     }
 
     public function handle_chat_message() {

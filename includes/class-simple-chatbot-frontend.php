@@ -7,10 +7,12 @@ class Simple_Chatbot_Frontend {
         $this->database_handler = $database_handler;
         add_action('wp_footer', array($this,'chatwidget'));
         add_action('wp_head', array($this, 'add_frontend_styles'));
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_scripts'));
         add_shortcode('simple_chatbot',array($this,'chatwidget_shortcode'));
     }
 
     public function chatwidget(){
+        $hf_token = get_option('simple_chatbot_hf_token', '');
         ?>
         <div id="simple-chatbot-widget">
             <div id="chat-toggle-btn">
@@ -32,9 +34,14 @@ class Simple_Chatbot_Frontend {
                         <span>🤖 Thinking...</span>
                     </div>
                     <div class="input-container">
-                        <input type="text" id="chat-input" placeholder="Type your message..." />
-                        <button id="send-button">Send</button>
+                        <input type="text" id="chat-input" placeholder="Type your message..." <?php echo empty($hf_token) ? 'disabled' : ''; ?> />
+                        <button id="send-button" <?php echo empty($hf_token) ? 'disabled' : ''; ?>>Send</button>
                     </div>
+                    <?php if (empty($hf_token)): ?>
+                        <div class="chat-warning">
+                            Chatbot not configured. Please contact site administrator.
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -46,11 +53,15 @@ class Simple_Chatbot_Frontend {
         $this->chatwidget();
         return ob_get_clean();
     }
-
-    public function enqueue_frontend_scripts(){
+    
+    // Add this new method
+    public function enqueue_frontend_scripts() {
+        wp_enqueue_script('simple-chatbot-frontend', plugin_dir_url(__FILE__) . 'js/frontend-chat.js', array('jquery'), '1.0.0', true);
         
-
-        //localize script to pass ajax url and nonce
+        // Localize script to pass AJAX URL
+        wp_localize_script('simple-chatbot-frontend', 'simple_chatbot_ajax', array(
+            'ajax_url' => admin_url('admin-ajax.php')
+        ));
     }
     
     public function add_frontend_styles() {
@@ -231,6 +242,11 @@ class Simple_Chatbot_Frontend {
             border-color: #667eea;
         }
 
+        #chat-input:disabled {
+            background-color: #f8f9fa;
+            cursor: not-allowed;
+        }
+
         #send-button {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -251,6 +267,17 @@ class Simple_Chatbot_Frontend {
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
+        }
+
+        /* Warning Message */
+        .chat-warning {
+            font-size: 12px;
+            color: #dc3545;
+            text-align: center;
+            margin-top: 8px;
+            padding: 5px;
+            background-color: #f8d7da;
+            border-radius: 4px;
         }
 
         /* Hidden State */
