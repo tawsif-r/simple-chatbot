@@ -1,53 +1,55 @@
 jQuery(document).ready(function($) {
-    // Make sure we're on a page with the chat widget
-    if ($('#simple-chatbot-widget').length === 0) {
-        return;
-    }
-
     console.log('Simple Chatbot Frontend: Script loaded');
+
+    const chatbotContainer = $('#simple-chatbot-container');
+    const chatbotToggle = $('#chatbot-toggle');
+    const chatbotWindow = $('#chatbot-window');
     const chatMessages = $('#chat-messages');
     const chatInput = $('#chat-input');
     const sendButton = $('#send-button');
     const loading = $('#loading');
-    const chatContainer = $('#chat-container');
-    
-    console.log('Elements found:', {
-        chatMessages: chatMessages.length,
-        chatInput: chatInput.length,
-        sendButton: sendButton.length,
-        loading: loading.length,
-        chatContainer: chatContainer.length
+
+    // Toggle chatbot window
+    chatbotToggle.on('click', function() {
+        chatbotWindow.toggle();
+        if (chatbotWindow.is(':visible')) {
+            chatInput.focus();
+            chatMessages.scrollTop(chatMessages[0].scrollHeight);
+        }
     });
 
     // Send message function
     function sendMessage() {
-        console.log('Send message triggered');
+        console.log('Frontend: Send message triggered');
         const message = chatInput.val().trim();
+
         if (!message) {
-            console.log('Empty message, returning');
+            console.log('Frontend: Empty message, returning');
             return;
         }
-        console.log('Sending message:', message);
-        
+
+        console.log('Frontend: Sending message:', message);
+
         // Add user message to chat
         addMessageToChat(message, 'user');
-        
+
         // Clear input and disable controls
         chatInput.val('');
         chatInput.prop('disabled', true);
         sendButton.prop('disabled', true);
         loading.show();
-        
+
         // Send AJAX request
         $.ajax({
-            url: simple_chatbot_ajax.ajax_url,
+            url: simpleChatbot.ajaxurl,
             type: 'POST',
             data: {
                 action: 'send_chat_message',
-                message: message
+                message: message,
+                nonce: simpleChatbot.nonce
             },
             success: function(response) {
-                console.log('AJAX Success:', response);
+                console.log('Frontend: AJAX Success:', response);
                 if (response.success) {
                     addMessageToChat(response.data, 'bot');
                 } else {
@@ -55,16 +57,16 @@ jQuery(document).ready(function($) {
                 }
             },
             error: function(xhr, status, error) {
-                console.log('AJAX Error:', xhr.responseText, status, error);
+                console.log('Frontend: AJAX Error:', xhr.responseText, status, error);
                 addMessageToChat('Connection error: ' + error, 'bot error');
             },
             complete: function() {
-                console.log('AJAX Complete');
-                // Re-enable controls
+                console.log('Frontend: AJAX Complete');
                 chatInput.prop('disabled', false);
                 sendButton.prop('disabled', false);
                 loading.hide();
                 chatInput.focus();
+                chatMessages.scrollTop(chatMessages[0].scrollHeight);
             }
         });
     }
@@ -74,18 +76,19 @@ jQuery(document).ready(function($) {
         const messageClass = type === 'user' ? 'user-message' : 'bot-message';
         const sender = type === 'user' ? 'You' : 'Bot';
         const errorClass = type.includes('error') ? ' error' : '';
+
         const messageHtml = '<div class="chat-message ' + messageClass + errorClass + '"><strong>' + sender + ':</strong> ' + escapeHtml(message) + '</div>';
+
         chatMessages.append(messageHtml);
-        // Scroll to bottom
-        chatContainer.scrollTop(chatContainer[0].scrollHeight);
+        chatMessages.scrollTop(chatMessages[0].scrollHeight);
     }
 
     // Escape HTML to prevent XSS
     function escapeHtml(text) {
         const map = {
             '&': '&amp;',
-            '<': '<',
-            '>': '>',
+            '<': '&lt;',
+            '>': '&gt;',
             '"': '&quot;',
             "'": '&#039;'
         };
@@ -95,18 +98,18 @@ jQuery(document).ready(function($) {
     // Event listeners
     sendButton.on('click', function(e) {
         e.preventDefault();
-        console.log('Send button clicked');
+        console.log('Frontend: Send button clicked');
         sendMessage();
     });
 
     chatInput.on('keypress', function(e) {
-        if (e.which === 13 && !e.shiftKey) { // Enter key
+        if (e.which === 13 && !e.shiftKey) {
             e.preventDefault();
-            console.log('Enter key pressed');
+            console.log('Frontend: Enter key pressed');
             sendMessage();
         }
     });
 
-    // Focus on input when page loads
+    // Focus on input when window is opened
     chatInput.focus();
 });

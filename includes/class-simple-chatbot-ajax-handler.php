@@ -37,7 +37,7 @@ class Simple_Chatbot_Ajax_Handler {
         }
 
         // Save to DB
-        $save_result = $this->database_handler->save_message($message, $response);
+        $save_result = $this->database_handler->save_message($message, $response); # saving the response in the database
         if ($save_result === false) {
             error_log('Simple Chatbot: Database insert failed: ' . $wpdb->last_error); // Or use $this->database_handler's internal error handling
         }
