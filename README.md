@@ -23,3 +23,7 @@ The user chat can be accessed simple by using the keyword **simple_chatbot** ins
 The chatbot will look like this.
 
 ![alt text](image-3.png)
+
+## Future development
+1. Allow the user to change between different models.
+2. Change the style of the bot logo and look.
