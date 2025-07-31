@@ -43,6 +43,8 @@ class Simple_Chatbot_Frontend {
     public function enqueue_scripts() {
         wp_enqueue_style('simple-chatbot-frontend', plugins_url('css/simple-chatbot-frontend.css', __FILE__), array(), '1.0');
         wp_enqueue_script('simple-chatbot-frontend', plugins_url('js/simple-chatbot-frontend.js', __FILE__), array('jquery'), '1.0', true);
+        //The first parameter of wp_localize_script() becomes the JavaScript object name, regardless of your plugin name
+        // js file calls this simpleChatbot.ajaxurl from here
         wp_localize_script('simple-chatbot-frontend', 'simpleChatbot', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('simple_chatbot_nonce')

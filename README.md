@@ -27,3 +27,18 @@ The chatbot will look like this.
 ## Future development
 1. Allow the user to change between different models.
 2. Change the style of the bot logo and look.
+
+## Flow of ajax
+
+[X] Frontend → AJAX request to admin-ajax.php through the javascript
+
+[X] admin-ajax.php → "What's the action?" → send_chat_message
+
+[X] admin-ajax.php → "Who handles send_chat_message?" → Your function
+
+[X] Your function → Processes message, generates response
+
+[X] Your function → wp_send_json_success()
+
+[X] Frontend → Receives JSON response in success: callback
+     

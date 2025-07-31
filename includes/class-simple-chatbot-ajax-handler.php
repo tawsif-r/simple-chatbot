@@ -9,6 +9,8 @@ class Simple_Chatbot_Ajax_Handler {
         
         add_action('wp_ajax_send_chat_message', array($this, 'handle_chat_message'));
         // Handle AJAX for frontend users (new)
+        // ========= actions ============
+        // send_chat_message is the custom action which is defined in the javascript file
         add_action('wp_ajax_nopriv_send_chat_message', array($this, 'handle_chat_message'));
     }
 

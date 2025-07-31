@@ -40,6 +40,8 @@ jQuery(document).ready(function($) {
         loading.show();
 
         // Send AJAX request
+        // action defination here
+        // send_chat_message is the name of the action which is called in the ajax handler.
         $.ajax({
             url: simpleChatbot.ajaxurl,
             type: 'POST',
