@@ -41,4 +41,6 @@ The chatbot will look like this.
 [X] Your function → wp_send_json_success()
 
 [X] Frontend → Receives JSON response in success: callback
-     
+
+
+![alt text](image-4.png)
