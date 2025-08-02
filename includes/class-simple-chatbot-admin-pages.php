@@ -29,6 +29,7 @@ class Simple_Chatbot_Admin_Pages {
     // Include the actual HTML/PHP for each page here (or in separate template files)
     public function main_page() {
         // get the value corresponding to simple_chatbot_hf_token
+        // get_option --> will grab the value within the get_option table under the name simple_chatbot_hf_token and if there is no value then put an empty string
         $hf_token = get_option('simple_chatbot_hf_token', '');
         ?>
         <div class="wrap">
@@ -78,6 +79,7 @@ class Simple_Chatbot_Admin_Pages {
     }
     public function settings_page() {
         // Handle form submission
+        // DU
         if (isset($_POST['submit']) && wp_verify_nonce($_POST['_wpnonce'], 'simple_chatbot_settings')) {
             update_option('simple_chatbot_hf_token', sanitize_text_field($_POST['hf_token']));
             update_option('simple_chatbot_model', sanitize_text_field($_POST['model']));
@@ -92,6 +94,12 @@ class Simple_Chatbot_Admin_Pages {
         <div class="wrap">
             <h1>Simple Chatbot Settings</h1>
             <form method="post">
+                <!-- A form starts here
+                nonce: number only ones.
+                $model: select the model from options which will be saved in the database.
+                $get_option: get the option from the database.
+                 
+                -->
                 <?php wp_nonce_field('simple_chatbot_settings'); ?>
                 <table class="form-table">
                     <tr>
@@ -106,6 +114,7 @@ class Simple_Chatbot_Admin_Pages {
                         <td>
                             <select name="model" class="regular-text">
                                 <option value="deepseek-ai/DeepSeek-R1:novita" <?php selected($model, 'deepseek-ai/DeepSeek-R1:novita'); ?>>DeepSeek R1 (Novita)</option>
+                                <option value="deepseek-ai/DeepSeek-R1-Distill-Qwen-32B:novita" <?php selected($model, 'deepseek-ai/DeepSeek-R1-Distill-Qwen-32B:novita'); ?>>DeepSeek-R1-Distill-Qwen-32B:novita</option>
                                 <option value="microsoft/DialoGPT-large" <?php selected($model, 'microsoft/DialoGPT-large'); ?>>DialoGPT Large</option>
                                 <option value="microsoft/DialoGPT-medium" <?php selected($model, 'microsoft/DialoGPT-medium'); ?>>DialoGPT Medium</option>
                                 <option value="facebook/blenderbot-400M-distill" <?php selected($model, 'facebook/blenderbot-400M-distill'); ?>>BlenderBot 400M</option>
