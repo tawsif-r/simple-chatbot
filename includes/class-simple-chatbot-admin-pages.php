@@ -79,7 +79,7 @@ class Simple_Chatbot_Admin_Pages {
     }
     public function settings_page() {
         // Handle form submission
-        // DU
+        // 
         if (isset($_POST['submit']) && wp_verify_nonce($_POST['_wpnonce'], 'simple_chatbot_settings')) {
             update_option('simple_chatbot_hf_token', sanitize_text_field($_POST['hf_token']));
             update_option('simple_chatbot_model', sanitize_text_field($_POST['model']));
@@ -98,7 +98,6 @@ class Simple_Chatbot_Admin_Pages {
                 nonce: number only ones.
                 $model: select the model from options which will be saved in the database.
                 $get_option: get the option from the database.
-                 
                 -->
                 <?php wp_nonce_field('simple_chatbot_settings'); ?>
                 <table class="form-table">
@@ -148,7 +147,7 @@ class Simple_Chatbot_Admin_Pages {
                 });
             });
             </script>
-            
+            <!-- show the information that has been set prior to this -->
             <div class="card" style="max-width: 600px; margin-top: 20px;">
                 <h3>Debug Information</h3>
                 <p><strong>HF Token Status:</strong> <?php echo !empty($hf_token) ? 'Configured (' . strlen($hf_token) . ' characters)' : 'Not configured'; ?></p>
