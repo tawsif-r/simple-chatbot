@@ -28,3 +28,8 @@ class Simple_Chatbot_Loader {
         $this->database_handler->create_chat_table();
     }
 }
+//apiusage2025@gmail.com
+//apiusage@123
+
+//api Usage
+// apiusage2025@gmail.com
