@@ -1,6 +1,10 @@
 <?php
 
 class Simple_Chatbot_Api_Client {
+    public function call_gemini_api($message,$token,$model,$system_message) {
+        echo "in development";
+    }
+    
     public function call_huggingface_api($message, $hf_token, $model, $system_message) {
         error_log('Simple Chatbot: Making API call to Hugging Face');
         

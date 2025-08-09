@@ -31,6 +31,10 @@ class Simple_Chatbot_Ajax_Handler {
 
         // Use API Client
         $api_client = new Simple_Chatbot_Api_Client();
+
+        #======================================
+        # API CALL TO HUGGING FACE
+        #======================================
         $response = $api_client->call_huggingface_api($message, $hf_token, $model, $system_message);
 
         if (is_wp_error($response)) {
